@@ -32,3 +32,9 @@ def compress_video(video_full_path, output_file_name, target_size):
 
 # Compress input.mp4 to 50MB and save as output.mp4
 compress_video('H:/Montage Making/2026 on/funny vid 3/trimmed/Age Regression.mp4', 'H:/Montage Making/2026 on/funny vid 3/output1.mp4', 10 * 1000)
+
+
+#make files selectable
+#allow for batch compression
+#allow for selected compression size
+#compression code is initially taken from https://stackoverflow.com/questions/64430805/how-to-compress-video-to-target-size-by-python
