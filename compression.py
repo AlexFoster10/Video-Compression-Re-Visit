@@ -1,6 +1,14 @@
 import os, ffmpeg
 import tkinter as tk
 from tkinter import filedialog
+
+global compMode
+global filePath
+global folderPath
+compMode = 0
+filePath = ""
+folderPath = ""
+
 #compression algo
 def compress_video(video_full_path, output_file_name, target_size):
     # Reference: https://en.wikipedia.org/wiki/Bit_rate#Encoding_bit_rate
@@ -44,15 +52,40 @@ def compress_video(video_full_path, output_file_name, target_size):
 
 ##button functions
 
-#single file
-
 def fileSelect():
-    filepath = filedialog.askopenfilename()
-    print(filepath)
+    global compMode
+    global filePath
+    global folderPath
+    filePath = filedialog.askopenfilename()
+    print(filePath)
+    compMode = 0
 
 def folderSelect():
-    filepath = filedialog.askdirectory()
-    print(filepath)
+    global compMode
+    global filePath
+    global folderPath
+    folderPath = filedialog.askdirectory()
+    print(folderPath)
+    compMode = 1
+
+
+
+##compression functions
+
+def compression():
+    global filePath
+    global folderPath
+    print("function clicked")
+    print(compMode)
+    if compMode == 1:
+        for file in os.scandir(folderPath):
+            if ".mp4" in file.name:
+                out = file.path
+                out[:-4]
+                compress_video(file.path, out +"compressVer.mp4", 8 * 1000)
+
+
+
 
 root = tk.Tk()
 root.title("Compressor")
@@ -60,10 +93,10 @@ root.configure(background="#070709")
 root.minsize(400, 400)
 root.geometry("300x300+50+50")
 #single file button
-fileSelect = tk.Button(root, text="Select for single file compression", command=fileSelect)
+fileSelect = tk.Button(root, text="Select for single file compression", command=compression)
 fileSelect.place(x=20,y=20)
 #folder button
 folderSelect = tk.Button(root, text="Select for whole folder compression", command=folderSelect)
-folderSelect.place(x=360,y=20)
+folderSelect.place(x=20,y=200)
 
 root.mainloop()
