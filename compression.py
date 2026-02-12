@@ -64,7 +64,7 @@ def folderSelect():
     global compMode
     global filePath
     global folderPath
-    folderPath = filedialog.askdirectory()
+    folderPath = filedialog.askdirectory(title="Select a Folder", mustexist=True)
     print(folderPath)
     compMode = 1
 
@@ -77,13 +77,23 @@ def compression():
     global folderPath
     print("function clicked")
     print(compMode)
+    val = entry.get()
+    if val.isnumeric():
+        val = int(val)
+    else:
+        val = 10
     if compMode == 1:
         for file in os.scandir(folderPath):
             if ".mp4" in file.name:
                 out = file.path
-                out[:-4]
-                compress_video(file.path, out +"compressVer.mp4", 8 * 1000)
+                out = out[:-4]
+                compress_video(file.path, out +"_Compressed_Ver.mp4", val * 1000)
 
+    if compMode == 0:
+        out = filePath
+        out = out[:-4]
+        compress_video(filePath, out +"_Compressed_Ver.mp4", val * 1000)
+        
 
 
 
@@ -93,10 +103,18 @@ root.configure(background="#070709")
 root.minsize(400, 400)
 root.geometry("300x300+50+50")
 #single file button
-fileSelect = tk.Button(root, text="Select for single file compression", command=compression)
+fileSelect = tk.Button(root, text="Select for single file compression", command=fileSelect)
 fileSelect.place(x=20,y=20)
 #folder button
 folderSelect = tk.Button(root, text="Select for whole folder compression", command=folderSelect)
-folderSelect.place(x=20,y=200)
+folderSelect.place(x=20,y=120)
+#compress button
+folderSelect = tk.Button(root, text="Click to compress selected file(s)", command=compression)
+folderSelect.place(x=20,y=220)
+#compress size entry
+label = tk.Label(root, text="Enter the size you want your videos compressed to (MB)")
+entry = tk.Entry(root)
+label.place(x=20,y=320)
+entry.place(x=20,y=345)
 
 root.mainloop()
