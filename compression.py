@@ -5,6 +5,7 @@ from threading import Thread
 from tkinter.ttk import *
 import math
 
+#variable defenitions
 global compMode
 global filePath
 global folderPath
@@ -111,6 +112,8 @@ def compression():
     
     progress['value'] = 100
 
+
+#progress bar thread functions
 def compThread():
     global t
     global counter
@@ -138,6 +141,8 @@ def check_thread():
         # check again after 100ms
         root.after(100, check_thread) 
 
+
+#tkinter window loop
 root = tk.Tk()
 root.title("Compressor")
 root.configure(background="#070709")
